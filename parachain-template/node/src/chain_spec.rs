@@ -99,6 +99,7 @@ pub fn development_config(id: ParaId) -> ChainSpec {
 					get_account_id_from_seed::<sr25519::Public>("Ferdie//stash"),
 				],
 				id,
+				get_account_id_from_seed::<sr25519::Public>("Alice"),
 			)
 		},
 		vec![],
@@ -153,6 +154,7 @@ pub fn local_testnet_config(id: ParaId) -> ChainSpec {
 					get_account_id_from_seed::<sr25519::Public>("Ferdie//stash"),
 				],
 				id,
+				get_account_id_from_seed::<sr25519::Public>("Alice"),
 			)
 		},
 		// Bootnodes
@@ -175,6 +177,7 @@ fn testnet_genesis(
 	invulnerables: Vec<(AccountId, AuraId)>,
 	endowed_accounts: Vec<AccountId>,
 	id: ParaId,
+	root_key: AccountId,
 ) -> parachain_template_runtime::GenesisConfig {
 	parachain_template_runtime::GenesisConfig {
 		system: parachain_template_runtime::SystemConfig {
@@ -183,6 +186,7 @@ fn testnet_genesis(
 				.to_vec(),
 			changes_trie_config: Default::default(),
 		},
+		sudo: parachain_template_runtime::SudoConfig { key: root_key },
 		balances: parachain_template_runtime::BalancesConfig {
 			balances: endowed_accounts.iter().cloned().map(|k| (k, 1 << 60)).collect(),
 		},
